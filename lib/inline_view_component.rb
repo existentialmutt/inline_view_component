@@ -1,6 +1,7 @@
 require "inline_view_component/railtie"
 require "active_support/concern"
 require "tilt"
+require "active_support/core_ext/string/output_safety"
 
 module InlineViewComponent
   extend ActiveSupport::Concern
@@ -30,6 +31,7 @@ module InlineViewComponent
 
       @inline_template = case format.to_sym
         when :erb then Tilt["erubi"].new(nil, 1, escape: true) { template_string }
+          # when :erb then Tilt::ErubiTemplate.new(nil, bufval: "ActiveSupport::SafeBuffer.new", escapefunc: "ERB::Util::h", escape: true) { template_string }
         when :haml then Tilt["haml"].new(nil, 1, escape_html: true) { template_string }
         end
     end
