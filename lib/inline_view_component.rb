@@ -25,7 +25,7 @@ module InlineViewComponent
 
     # set the template for this component
     def self.template(template_string)
-      format = self.inline_template_format || :erb #Rails.configuration.x.inline_view_component.default_template_format
+      format = inline_template_format || :erb # Rails.configuration.x.inline_view_component.default_template_format
 
       raise "unsupported format #{format}" unless FORMATS.include?(format)
 
@@ -33,11 +33,11 @@ module InlineViewComponent
         when :erb then Tilt["erubi"].new(nil, 1, escape: true) { template_string }
           # when :erb then Tilt::ErubiTemplate.new(nil, bufval: "ActiveSupport::SafeBuffer.new", escapefunc: "ERB::Util::h", escape: true) { template_string }
         when :haml then Tilt["haml"].new(nil, 1, escape_html: true, format: :html5) { template_string }
-        end
+      end
     end
 
     def call
-      raise "No template defined" if !self.class.inline_template
+      raise "No template defined" unless self.class.inline_template
 
       raw self.class.inline_template.render(self)
     end
