@@ -1,12 +1,38 @@
 # InlineViewComponent
-Provide templates as heredoc strings from within ViewComponent class definitions.  Really good HAML support and ERB's not bad either.  Syntax highlighting for Sublime Text included.
+This gem allows your ViewComponents to define template strings within the class definition.  ERB and HAML are supported.  Syntax highlighting for Sublime Text is provided.
 
 ## Usage
-How to use my plugin.
+Include the `InlineViewComponent` mixin and then specify your template string with `template(string)`.  Be sure to delete your component's external template file or ViewComponent will raise an error.
 
-BASIC EXAMPLE ERB
+#### Examples
+```ruby
+class ErbComponent < ViewComponent::Base
+  include InlineViewComponent
 
-HAML IS ALSO SUPPORTED
+  def message
+    "So inline. Such convenient."
+  end
+
+  template <<~ERB
+    <p> <%= message %> </p>
+  ERB
+end
+```
+
+```ruby
+class HamlComponent < ViewComponent::Base
+  include InlineViewComponent
+
+  def message
+    "Very HAML. Much terse."
+  end
+
+  self.inline_template_format = :haml
+  template <<~Haml
+    %p= message
+  Haml
+end
+```
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -25,11 +51,9 @@ Or install it yourself as:
 $ gem install inline_view_component
 ```
 
-## Default Template Format
-
 ## Syntax Highlighting
 
-Syntax highlighting for Sublime Text is available.  Download (this file)[/editor/Ruby.sublime-syntax] and add it to your Sublime User package.  Then open your compoent files in the `Ruby (Custom)` syntax (or choose `View -> Syntax -> Open All with current extention as...` to use it automatically).
+Syntax highlighting for Sublime Text is available.  Download (this file)[/editor/Ruby.sublime-syntax] and add it to your Sublime User package.  Then open your ruby files in the `Ruby (Custom)` syntax (or choose `View -> Syntax -> Open All with current extention as...` to use it automatically).
 
 To get syntax highlighting to work use `ERB` or `HAML` as the delimiter for your heredoc string e.g.
 
@@ -39,21 +63,16 @@ template <<~HAML
 HAML
 ```
 
-Note that ERB highlighting currently has an issue that screws up text highlighting after the closing `ERB` delimiter.  If you put your template at the end of your class definition you'll only have to deal with bad highlighting on a couple `end`'s
-
-
-
 ## TODO
 
-This is a very early release of the plugin.  Contributions are welcome!
+This is an early release.  Contributions are welcome!
 
-- [ ] get `raw` and `html_safe` working in ERB templates
-- [ ] fix syntax highlighting for ERB in Sublime Text
-- [ ] add syntax highlighting for VSCode
-- [ ] add support for other templating languages (slim, etc)
+- [ ] better error reporting (all the info is there, but it could be clearer)
+- [ ] add syntax highlighting for more editors (VS Code, vim, ...)
+- [ ] add support for other templating languages (slim, ...)
 
 ## Contributing
-Contribution directions go here.
+Send a pull request.
 
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

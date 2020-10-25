@@ -1,6 +1,6 @@
 require "active_support/concern"
 require "tilt"
-# require "active_support/core_ext/string/output_safety"
+require "active_support/core_ext/string/output_safety"
 
 module InlineViewComponent
   extend ActiveSupport::Concern
@@ -38,10 +38,8 @@ module InlineViewComponent
       raise "unsupported format #{format}" unless InlineViewComponent::FORMATS.include?(format)
 
       case format.to_sym
-      when :erb then Tilt["erubi"].new(nil, 1, escape: true) { template_string }
-        # TODO maybe something like this would get html_safe working
-        # when :erb then Tilt::ErubiTemplate.new(nil, bufval: "ActiveSupport::SafeBuffer.new", escapefunc: "ERB::Util::h", escape: true) { template_string }
-      when :haml then Tilt["haml"].new(nil, 1, escape_html: true, format: :html5) { template_string }
+      when :erb then Tilt::ErubiTemplate.new(nil, escape_html: true, escapefunc: "::ERB::Util::h") { template_string }
+      when :haml then Tilt["haml"].new(nil, 1, escape_html: true) { template_string }
       end
     end
 
