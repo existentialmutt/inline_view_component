@@ -10,7 +10,7 @@ class ErbComponent < ViewComponent::Base
   include InlineViewComponent
 
   def message
-    "So inline. Such convenient."
+    "Such inline. Much convenient."
   end
 
   template <<~ERB
@@ -24,7 +24,7 @@ class HamlComponent < ViewComponent::Base
   include InlineViewComponent
 
   def message
-    "Very HAML. Much terse."
+    "Very HAML. Many terse."
   end
 
   self.inline_template_format = :haml
