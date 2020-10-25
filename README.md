@@ -53,7 +53,7 @@ $ gem install inline_view_component
 
 ## Syntax Highlighting
 
-Syntax highlighting for Sublime Text is available.  Download (this file)[/editor/Ruby.sublime-syntax] and add it to your Sublime User package.  Then open your ruby files in the `Ruby (Custom)` syntax (or choose `View -> Syntax -> Open All with current extention as...` to use it automatically).
+Syntax highlighting for Sublime Text is available.  Download [this file](/editor/Ruby.sublime-syntax) and add it to your Sublime User package.  Then open your ruby files in the `Ruby (Custom)` syntax (or choose `View -> Syntax -> Open All with current extention as...` to use it automatically).
 
 To get syntax highlighting to work use `ERB` or `HAML` as the delimiter for your heredoc string e.g.
 
