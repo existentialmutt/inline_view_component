@@ -28,9 +28,9 @@ class HamlComponent < ViewComponent::Base
   end
 
   self.inline_template_format = :haml
-  template <<~Haml
+  template <<~HAML
     %p= message
-  Haml
+  HAML
 end
 ```
 
