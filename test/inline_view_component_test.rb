@@ -11,30 +11,30 @@ class WrapperComponent < ViewComponent::Base
   end
 
   template <<~ERB
-             <h1>ERB Component</h1>
-             
-             <p><%= '<span style="color: green;">Manually escape safe html with &#37;== </span>' %></p>
-             <p><%= '<span style="color: green;">html_safe strings work</span>'.html_safe %></p>
-             <p><%= '<span style="color: red">unsafe HTML is escaped</span>' %></p>
+    <h1>ERB Component</h1>
+    
+    <p><%= '<span style="color: green;">Manually escape safe html with &#37;== </span>' %></p>
+    <p><%= '<span style="color: green;">html_safe strings work</span>'.html_safe %></p>
+    <p><%= '<span style="color: red">unsafe HTML is escaped</span>' %></p>
 
-             <pre>
-               @render_inner: <%= @render_inner %>  
-             </pre>
-             
-             <%= render InnerComponent.new if @render_inner %>        
+    <pre>
+      @render_inner: <%= @render_inner %>  
+    </pre>
+    
+    <%= render InnerComponent.new if @render_inner %>        
 
-           ERB
+  ERB
 end
 
 class InnerComponent < ViewComponent::Base
   include InlineViewComponent
 
   template <<~ERB
-             <h3>Hi I'm the insides.  Here's how I render HTML strings</h3>
+    <h3>Hi I'm the insides.  Here's how I render HTML strings</h3>
 
-              <p><%== '<span style="color: blue;">Manually escape safe html with &#37;==</span>' %></p>
-              <p><%= '<span style="color: red">unsafe HTML is escaped</span>' %></p>
-           ERB
+     <p><%== '<span style="color: blue;">Manually escape safe html with &#37;==</span>' %></p>
+     <p><%= '<span style="color: red">unsafe HTML is escaped</span>' %></p>
+  ERB
 end
 
 class HamlWrapperComponent < ViewComponent::Base
@@ -46,23 +46,14 @@ class HamlWrapperComponent < ViewComponent::Base
 
   self.inline_template_format = :haml
   template <<~HAML
-             %h1 HAML Component
+    %h1 HAML Component
 
-             %p!= '<span style="color: green;">Use != for HTML-safe HAML</span>'
-             %p= '<span style="color: green;">html_safe strings work</span>'.html_safe
-             %p= '<span style="color: red">unsafe HTML is escaped</span>'
+    %p!= '<span style="color: green;">Use != for HTML-safe HAML</span>'
+    %p= '<span style="color: green;">html_safe strings work</span>'.html_safe
+    %p= '<span style="color: red">unsafe HTML is escaped</span>'
 
-             = render(InnerComponent.new) if @render_inner
-           HAML
-end
-
-class BrComponent < ViewComponent::Base
-  include InlineViewComponent
-
-  template <<~ERB
-             <p>html_safe: <%= "<br>".html_safe %></p>
-             <p>html_unsafe: <%= "<br>" %></p>
-           ERB
+    = render(InnerComponent.new) if @render_inner
+  HAML
 end
 
 class InlineViewComponentTest < ViewComponent::TestCase
@@ -75,40 +66,11 @@ class InlineViewComponentTest < ViewComponent::TestCase
   end
 
   def test_it_renders_erb
-    # puts render_inline(WrapperComponent.new(render_inner: true)).to_s.inspect
-    # puts render_inline(BrComponent.new(render_inner: true))
-
     assert_equal ERB_RESULT, render_inline(WrapperComponent.new(render_inner: true)).to_s
   end
 
   def test_it_renders_haml
     # puts render_inline(HamlWrapperComponent.new(render_inner: true)).to_s.inspect
     assert_equal HAML_RESULT, render_inline(HamlWrapperComponent.new(render_inner: false)).to_s
-  end
-
-  def test_it_compiles_erb_templates
-    expected = "<p>html_safe: <br></p>\n<p>html_unsafe: &lt;br&gt;</p>\n"
-
-    template_string = <<~ERB
-      <p>html_safe: <%= "<br>".html_safe %></p>
-      <p>html_unsafe: <%= "<br>" %></p>
-    ERB
-
-    assert_equal expected, InlineViewComponent::Compiler.compile_template(:erb, template_string).render
-  end
-
-  def test_it_compiles_haml_templates
-    expected = "<p>\nhtml_safe\n<br>\n</p>\n<p>\nhtml_unsafe:\n&lt;br&gt;\n</p>\n"
-
-    template_string = <<~HAML
-      %p
-        html_safe
-        = "<br>".html_safe
-      %p
-        html_unsafe:
-        = "<br>"
-    HAML
-
-    assert_equal expected, InlineViewComponent::Compiler.compile_template(:haml, template_string).render
   end
 end
