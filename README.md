@@ -69,7 +69,7 @@ This is an early release.  Contributions are welcome!
 
 - [ ] better error reporting (all the info is there, but it could be clearer)
 - [ ] add syntax highlighting for more editors (VS Code, vim, ...)
-- [ ] add support for other templating languages (slim, ...)
+- [ ] confirm support for other templating languages (slim, ...)
 
 ## Contributing
 Send a pull request.
