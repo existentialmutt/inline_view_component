@@ -1,5 +1,5 @@
 # InlineViewComponent
-This gem allows your ViewComponents to define template strings within the class definition.  ERB and HAML are supported.  Syntax highlighting for Sublime Text is provided.
+This gem allows your ViewComponents to define template strings within the class definition.  You should be able to use any templating language your rails app supports (ERB and HAML are tested).  Syntax highlighting for Sublime Text is provided.
 
 ## Usage
 Include the `InlineViewComponent` mixin and then specify your template string with `template(string)`.  Be sure to delete your component's external template file or ViewComponent will raise an error.
