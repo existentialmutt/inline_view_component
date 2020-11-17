@@ -1371,11 +1371,10 @@ contexts:
     - match: '(<<[-~]"?((?:[_\w]+_|)HAML)\b"?)'
       scope: punctuation.definition.string.begin.ruby
       push: [heredoc-haml, trailing-heredoc-start]
-    # - match: '(<<[-~]"?((?:[_\w]+_|)ERB)\b"?)'
-    #   embed: text.html.ruby.custom
-    #   escape: ^\s*(ERB)$
-    #   escape_captures:
-    #     0: trailing-heredoc
+    # heredoc with embedded Slim and indented terminator
+    - match: '(<<[-~]"?((?:[_\w]+_|)SLIM)\b"?)'
+      scope: punctuation.definition.string.begin.ruby
+      push: [heredoc-slim, trailing-heredoc-start]
     # heredoc with embedded SQL and indented terminator
     - match: '(<<[-~]"?((?:[_\w]+_|)SQL)\b"?)'
       scope: punctuation.definition.string.begin.ruby
@@ -1423,9 +1422,6 @@ contexts:
     - match: ^\s*\2$
       scope: punctuation.definition.string.end.ruby
       pop: true
-    - include: scope:text.html.basic
-    - include: interpolated-ruby
-    - include: escaped-char
     - match: "<%+#"
       scope: punctuation.definition.comment.erb
       push:
@@ -1444,6 +1440,9 @@ contexts:
           captures:
             1: punctuation.definition.comment.ruby
         - include: "Ruby on Rails.sublime-syntax"        
+    - include: scope:text.html.basic
+    - include: interpolated-ruby
+    - include: escaped-char
 
   heredoc-haml:
     - meta_scope: string.unquoted.embedded.haml.ruby
@@ -1452,6 +1451,16 @@ contexts:
       scope: punctuation.definition.string.end.ruby
       pop: true
     - include: scope:text.haml
+    - include: interpolated-ruby
+    - include: escaped-char
+
+  heredoc-slim:
+    - meta_scope: string.unquoted.embedded.slim.ruby
+    - meta_content_scope: text.slim.embedded.ruby
+    - match: ^\s*SLIM$
+      scope: punctuation.definition.string.end.ruby
+      pop: true
+    - include: scope:text.slim
     - include: interpolated-ruby
     - include: escaped-char
 

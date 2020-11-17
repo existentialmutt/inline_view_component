@@ -1,10 +1,13 @@
 # InlineViewComponent
-This gem allows your ViewComponents to define template strings within the class definition.  You should be able to use any templating language your rails app supports (ERB and HAML are tested).  Syntax highlighting for Sublime Text is provided.
+
+This gem allows your ViewComponents to define template strings within the class definition. You should be able to use any templating language your rails app supports (ERB, HAML, Slim...). There's also custom syntax highlighting for heredoc templates for Sublime Text.
 
 ## Usage
-Include the `InlineViewComponent` mixin and then specify your template string with `template(string)`.  Be sure to delete your component's external template file or ViewComponent will raise an error.
+
+Include the `InlineViewComponent` mixin and then specify your template string with `template(string)`. Be sure to delete your component's external template file or ViewComponent will raise an error.
 
 #### Examples
+
 ```ruby
 class ErbComponent < ViewComponent::Base
   include InlineViewComponent
@@ -34,7 +37,16 @@ class HamlComponent < ViewComponent::Base
 end
 ```
 
+You can also provide the template format as an optional second argument to the template method
+
+```ruby
+  template <<~SLIM, :slim
+    h1 Hello World!
+  SLIM
+```
+
 ## Installation
+
 Add this line to your application's Gemfile:
 
 ```ruby
@@ -42,37 +54,39 @@ gem 'inline_view_component'
 ```
 
 And then execute:
+
 ```bash
 $ bundle
 ```
 
 Or install it yourself as:
+
 ```bash
 $ gem install inline_view_component
 ```
 
 ## Syntax Highlighting
 
-Syntax highlighting for Sublime Text is available.  Download [this file](/editor/Ruby.sublime-syntax) and add it to your Sublime User package.  Then open your ruby files in the `Ruby (Custom)` syntax (or choose `View -> Syntax -> Open All with current extention as...` to use it automatically).
+Syntax highlighting for Sublime Text is available. Download [this file](/editor/Ruby.sublime-syntax) and add it to your Sublime User package. Then open your ruby files in the `Ruby (Custom)` syntax (or choose `View -> Syntax -> Open All with current extention as...` to use it automatically).
 
-To get syntax highlighting to work use `ERB` or `HAML` as the delimiter for your heredoc string e.g.
+To get syntax highlighting to work use `ERB`, `HAML`, or `SLIM` as the delimiter for your heredoc string e.g.
 
 ```
-template <<~HAML
+template <<~HAML, :haml
   %h1 A really great template
 HAML
 ```
 
 ## TODO
 
-This is an early release.  Contributions are welcome!
+This is an early release. Contributions are welcome!
 
-- [ ] better error reporting (all the info is there, but it could be clearer)
 - [ ] add syntax highlighting for more editors (VS Code, vim, ...)
-- [ ] confirm support for other templating languages (slim, ...)
 
 ## Contributing
+
 Send a pull request.
 
 ## License
+
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

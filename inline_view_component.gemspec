@@ -21,5 +21,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "pg"
   spec.add_development_dependency "haml-rails"
+  spec.add_development_dependency "slim"
   spec.add_development_dependency "standard"
 end
