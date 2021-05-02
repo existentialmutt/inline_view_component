@@ -13,7 +13,7 @@ class ErbComponent < ViewComponent::Base
   include InlineViewComponent
 
   def message
-    "Such inline. Much convenient."
+    "Hello World!"
   end
 
   template <<~ERB
@@ -27,17 +27,16 @@ class HamlComponent < ViewComponent::Base
   include InlineViewComponent
 
   def message
-    "Very HAML. Many terse."
+    "Hello HAML!"
   end
 
-  self.inline_template_format = :haml
-  template <<~HAML
+  template <<~HAML, :haml
     %p= message
   HAML
 end
 ```
 
-You can also provide the template format as an optional second argument to the template method
+You can provide any template format you have installed as an optional second argument to the template method
 
 ```ruby
   template <<~SLIM, :slim
